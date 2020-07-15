@@ -1,0 +1,6 @@
+#pragma once
+
+#define GRAVE_ESC_CTRL_OVERRIDE
+
+#define MOUSEKEY_INTERVAL 16
+#define MOUSEKEY_MAX_SPEED 3

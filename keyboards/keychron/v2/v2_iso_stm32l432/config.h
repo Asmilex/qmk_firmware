@@ -1,4 +1,4 @@
-/* Copyright 2020 QMK
+/* Copyright 2022 @ Keychron (https://www.keychron.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,12 @@
 
 #pragma once
 
-#define HAL_USE_I2C TRUE
-#define PAL_USE_CALLBACKS TRUE
+/* RGB Matrix Configuration */
+#define DRIVER_1_LED_TOTAL 34
+#define DRIVER_2_LED_TOTAL 34
+#define RGB_MATRIX_LED_COUNT (DRIVER_1_LED_TOTAL + DRIVER_2_LED_TOTAL)
 
-#include_next <halconf.h>
+#define CKLED2001_CURRENT_TUNE { 0xCA, 0xCA, 0x60, 0xCA, 0xCA, 0x60, 0xCA, 0xCA, 0x60, 0xCA, 0xCA, 0x60 }
+
+/* Enable caps-lock LED */
+#define CAPS_LOCK_LED_INDEX 29

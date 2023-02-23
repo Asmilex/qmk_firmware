@@ -1,4 +1,4 @@
-/* Copyright 2020 QMK
+/* Copyright 2022 @ Keychron (https://www.keychron.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-
-#define HAL_USE_I2C TRUE
-#define PAL_USE_CALLBACKS TRUE
-
-#include_next <halconf.h>
+#define DYNAMIC_KEYMAP_LAYER_COUNT 5

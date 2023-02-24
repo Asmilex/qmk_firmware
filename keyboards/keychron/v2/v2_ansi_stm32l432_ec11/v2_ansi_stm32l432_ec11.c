@@ -133,7 +133,7 @@ led_config_t g_led_config = {
 
 #if defined(ENCODER_ENABLE) && defined(PAL_USE_CALLBACKS)
 
-void encoder0_pad_cb(void *param) {
+/* void encoder0_pad_cb(void *param) {
     (void)param;
 
     encoder_insert_state();
@@ -152,5 +152,5 @@ void keyboard_post_init_kb(void) {
     // allow user keymaps to do custom post_init
     keyboard_post_init_user();
 }
-
+ */
 #endif

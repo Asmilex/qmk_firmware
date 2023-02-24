@@ -47,14 +47,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL, KC_LWIN,  KC_LALT,                             KC_SPC,                             KC_RALT,  MO(_FN1), MO(_FN2), KC_LEFT, KC_DOWN, KC_RGHT),
 
     [_FN1] = LAYOUT_ansi_67(
-        KC_GRV,  KC_F1,    KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,   KC_DEL,           RGB_TOG,
+        KC_GRV,  KC_F1,    KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,   KC_DEL,           KC_MUTE,
         _______, KC_MPRV,  KC_MPLY,  KC_MNXT, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,          KC_HOME,
         _______, _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,           KC_END,
         _______,           _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______, _______,
         _______, _______,  _______,                             _______,                            _______,  _______,  _______,  _______, _______, _______),
 
     [_FN2] = LAYOUT_ansi_67(
-        _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,          _______,
+        _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,          RGB_TOG,
         RGB_TOG, KC_BTN1, KC_MS_UP, KC_BTN2, RGB_MOD,  RGB_VAI,  RGB_HUI, RGB_SAI, RGB_SPI,  _______, _______,  _______,  _______,  _______,          _______,
         _______, KC_MS_L, KC_MS_D, KC_MS_R, RGB_RMOD, RGB_VAD,  RGB_HUD, RGB_SAD, RGB_SPD,  _______, _______,  _______,            _______,          _______,
         _______,           _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______, _______,
@@ -76,4 +76,45 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_FN2]   = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI)},
     [_FN3]   = { ENCODER_CCW_CW(_______, _______)}
 };
-#endif // ENCODER_MAP_ENABLE
+#else
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (layer_state_cmp(layer_state, _FN1)) {
+        if (clockwise) {
+            tap_code_delay(KC_VOLU, 10);
+        } else {
+            tap_code_delay(KC_VOLD, 10);
+        }
+    }
+    else if (layer_state_cmp(layer_state, _FN2)) {
+        if (clockwise) {
+            rgb_matrix_increase_hue();
+        } else {
+            rgb_matrix_decrease_hue();
+        }
+    }
+    else {
+        uint8_t mod_state = get_mods();
+
+        if (mod_state & MOD_MASK_GUI) {
+            del_mods(MOD_MASK_GUI);
+
+            if (clockwise) {
+                register_code(KC_RGHT);
+            } else {
+                register_code(KC_LEFT);
+            }
+
+            set_mods(mod_state);
+        }
+        else {
+            if (clockwise) {
+                tap_code_delay(KC_UP, 10);
+            } else {
+                tap_code_delay(KC_DOWN, 10);
+            }
+        }
+    }
+
+    return false;
+}
+#endif

@@ -45,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [WIN_BASE] = LAYOUT_ansi_67(
         KC_ESC,  KC_1,     KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,          KC_MUTE,
-        KC_TAB,  KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,          KC_PAGE_UP,
+        KC_TAB,  KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KC_PSCR,          KC_PAGE_UP,
         LT_CAP,  KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,            KC_ENT,           KC_PAGE_DOWN,
         SC_LSPO,           KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,            SC_RSPC, KC_UP,
         KC_LCTL, KC_LWIN,  KC_LALT,                             KC_SPC,                             KC_RALT,  MO(_FN1), MO(_FN2), KC_LEFT, KC_DOWN, KC_RGHT),
@@ -99,38 +99,23 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (layer_state_cmp(layer_state, _FN1)) {
         if (clockwise) {
+            tap_code_delay(KC_RGHT, 10);
+        } else {
+            tap_code_delay(KC_LEFT, 10);
+        }
+    }
+    else if (layer_state_cmp(layer_state, _FN2)) {
+        if (clockwise) {
             tap_code_delay(KC_VOLU, 10);
         } else {
             tap_code_delay(KC_VOLD, 10);
         }
     }
-    else if (layer_state_cmp(layer_state, _FN2)) {
-        if (clockwise) {
-            rgb_matrix_increase_hue();
-        } else {
-            rgb_matrix_decrease_hue();
-        }
-    }
     else {
-        uint8_t mod_state = get_mods();
-
-        if (mod_state & MOD_MASK_GUI) {
-            del_mods(MOD_MASK_GUI);
-
-            if (clockwise) {
-                register_code(KC_RGHT);
-            } else {
-                register_code(KC_LEFT);
-            }
-
-            set_mods(mod_state);
-        }
-        else {
-            if (clockwise) {
-                tap_code_delay(KC_UP, 10);
-            } else {
-                tap_code_delay(KC_DOWN, 10);
-            }
+        if (clockwise) {
+            tap_code_delay(KC_UP, 10);
+        } else {
+            tap_code_delay(KC_DOWN, 10);
         }
     }
 

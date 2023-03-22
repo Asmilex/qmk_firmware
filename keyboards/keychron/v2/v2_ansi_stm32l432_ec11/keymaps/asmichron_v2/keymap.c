@@ -27,7 +27,8 @@ enum layers{
 };
 
 enum custom_keycodes {
-    MUTE_MIC,
+    MUTE_MIC = SAFE_RANGE,
+    EM_DASH,
 };
 
 #define KC_TASK LGUI(KC_TAB)
@@ -58,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______,  _______,                             _______,                            _______,  _______,  _______,  _______, _______, _______),
 
     [_FN2] = LAYOUT_ansi_67(
-        _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,          RGB_TOG,
+        _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  EM_DASH,  _______,  _______,          RGB_TOG,
         RGB_TOG, KC_BTN1, KC_MS_UP, KC_BTN2, RGB_MOD,  RGB_VAI,  RGB_HUI, RGB_SAI, RGB_SPI,  _______, _______,  _______,  _______,  _______,          _______,
         _______, KC_MS_L, KC_MS_D, KC_MS_R, RGB_RMOD, RGB_VAD,  RGB_HUD, RGB_SAD, RGB_SPD,  _______, _______,  _______,            _______,          _______,
         _______,           _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______, _______,
@@ -80,7 +81,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code_delay(KC_M, 10);
                 del_mods(MOD_MASK_CTRL & MOD_MASK_SHIFT);
             }
-            return false;
+            break;
+
+        case EM_DASH:
+            if (record->event.pressed) {
+                send_string(SS_LALT(SS_TAP(X_KP_0) SS_TAP(X_KP_1) SS_TAP(X_KP_5) SS_TAP(X_KP_1)));  // Alt + 0151; Windows only
+            }
             break;
     }
     return true;

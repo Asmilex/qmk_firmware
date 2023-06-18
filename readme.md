@@ -10,11 +10,19 @@ This is a keyboard firmware based on the [tmk\_keyboard firmware](https://github
 
 ## The Jadefox
 
-This fork adds support to the *YMDK YD68 MiniUSB* version (named this way in case the pinout is different). It can be found at [keyboards/YM68_MiniUSB](./keyboards/YM68_MiniUSB). For more information, please refer to that folder. 
+This fork adds support to the *YMDK YD68 MiniUSB* version (named this way in case the pinout is different) [(link)](./keyboards/ymdk/ym68/keymaps/jadefox/). 
+
+Compile: 
+
+```sh
+qmk compile -kb ymdk/ym68 -km jadefox
+```
 
 ## Asmichron V2
 
-Compile my custom keymap of the Keychron V2 (ANSI with knob) with the following command:
+Custom keymap of the Keychron V2 (ANSI with knob)
+
+Compile:
 
 ```sh
 qmk compile -kb keychron/v2/v2_ansi_stm32l432_ec11 -km asmichron_v2
